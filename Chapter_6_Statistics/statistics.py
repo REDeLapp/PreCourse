@@ -27,6 +27,7 @@ def draw_sample(population, n):
 
     Hint: Use np.random.choice(). Google it. Google is your best friend
     """
+    return np.random.choice(population,n)
     pass
 
 
@@ -40,6 +41,7 @@ def get_mean(lst):
     Hint: Don't use np.mean().
     Then use np.mean(arr) to see if you got the same value
     """
+    return float(np.sum(lst))/float(len(lst))
     pass
 
 
@@ -51,6 +53,10 @@ def get_variance(lst, sample=True):
     OUTPUT:
     - lst_variance(FLOAT) [Sample or population variance depending]
     """
+    if sample == False:
+        return np.sum(np.power(np.add(lst,-1.0*get_mean(lst)),2))/float(len(lst))
+    else:
+        return np.sum(np.power(np.add(lst,-1.0*get_mean(lst)),2))/float(len(lst)-1)
     pass
 
 
@@ -61,6 +67,7 @@ def get_sem(sample):
     OUTPUT:
     - sem(FLOAT) [Standard Error Mean]
     """
+    return np.sqrt(get_variance(sample))/np.sqrt(len(sample))
     pass
 
 
@@ -72,6 +79,11 @@ def get_confidence_interval(sample, confidence=.95):
     OUTPUT:
     - (tuple) [mean, mean - half_rng, mean + half_rng]
     """
+    mean = get_mean(sample)
+
+    half_rng = scs.t.ppf(confidence/2,sample) * get_sem(sample)
+    return half_rng
+    #return [mean,mean-half_rng,mean+half_rng]
     pass
 
 
@@ -97,4 +109,28 @@ def get_outlier(population):
 
 if __name__ == '__main__':
     population = load_pickle('population.pkl')
-    print 'First 10 element of the population: ', population[:5]
+    print 'First 5 element of the population: ', population[:5]
+    sample_100 = draw_sample(population, 100)
+    sample_1000 = draw_sample(population, 1000)
+    population_mean = get_mean(population)
+    sample_100_mean = get_mean(sample)
+    sample_1000_mean = get_mean(sample)
+    print 'Population mean: ', population_mean
+    print 'Sample 100 mean: ', sample_100_mean
+    print 'Sample 1000 mean: ', sample_1000_mean
+    population_var = get_variance(population)
+    sample_100_var = get_variance(sample_100)
+    sample_1000_var = get_variance(sample_1000)
+    print 'Population variance: ', population_variance
+    print 'Sample 100 variance: ', sample_100_variance
+    print 'Sample 1000 variance: ', sample_1000_variance
+    print 'per difference between sample of 1000 / 100: ', (sample_1000_variance - sample_100_variance)/sample_100_variance
+    population_sem = get_sem(population)
+    sample_100_sem = get_sem(sample_100)
+    sample_1000_sem = get_sem(sample_1000)
+    print 'Population sem: ', population_sem
+    print 'Sample 100 sem: ', sample_100_sem
+    print 'Sample 1000 sem: ', sample_1000_sem
+    print 'per difference between sample of 1000 / 100: ', (sample_1000_sem - sample_100_sem)/sample_100_sem
+    # how precisely we know the mean
+
