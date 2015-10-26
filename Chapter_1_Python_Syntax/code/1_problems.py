@@ -7,63 +7,62 @@ def sort_rows(mat):
     '''
     INPUT: 2 dimensional list of integers (matrix)
     OUTPUT: 2 dimensional list of integers (matrix)
-
     Use list comprehension to modify each row of the matrix to be sorted.
-
     Example:
     >>> M = [[4, 5, 2, 8], [3, 9, 6, 7]]
     >>> sort_rows(M)
     >>> M
     [[2, 4, 5, 8], [3, 6, 7, 9]]
     '''
+    mat = [sorted(mat[0]),sorted(mat[1])];
     pass
+
 
 def average_rows1(mat):
     '''
     INPUT: 2 dimensional list of integers (matrix)
     OUTPUT: list of floats
-
     Use list comprehension to take the average of each row in the matrix and
     return it as a list.
-
     Example:
     >>> average_rows1([[4, 5, 2, 8], [3, 9, 6, 7]])
     [4.75, 6.25]
     '''
+    return [float(sum(mat[0]))/float(len(mat[0])),float(sum(mat[1]))/float(len(mat[0]))];
     pass
 
 def average_rows2(mat):
     '''
     INPUT: 2 dimensional list of integers (matrix)
     OUTPUT: list of floats
-
     Use map to take the average of each row in the matrix and
     return it as a list.
     '''
+    def avg(x): return float(sum(x))/float(len(x));
+    return map(avg,mat);
     pass
 
 def word_lengths1(phrase):
     '''
     INPUT: string
     OUTPUT: list of integers
-
     Use list comprehension to find the length of each word in the phrase
     (broken by spaces) and return the values in a list.
-
     Example:
     >>> word_lengths1("Welcome to Zipfian Academy!")
     [7, 2, 7, 8]
     '''
+    return [len(x) for x in phrase.split()]
     pass
 
 def word_lengths2(phrase):
     '''
     INPUT: string
     OUTPUT: list of integers
-
     Use map to find the length of each word in the phrase
     (broken by spaces) and return the values in a list.
     '''
+    return map(len,phrase.split());
     pass    
 
 def even_odd1(L):
@@ -78,6 +77,7 @@ def even_odd1(L):
     >>> even_odd([6, 4, 1, 3, 8, 5])
     ['even', 'even', 'odd', 'odd', 'even', 'odd']
     '''
+    return ['even' if x % 2 == 0 else 'odd' for x in L]
     pass
 
 def even_odd2(L):
@@ -105,6 +105,11 @@ def shift_on_character(string, char):
     >>> shift_on_character("zipfian", "f")
     'fianzip'
     '''
+    if char not in string:
+        return string;
+    else:
+        start_num = string.index(char)
+        return string[start_num:]+string[:start_num];
     pass
 
 def is_palindrome(string):
@@ -118,6 +123,7 @@ def is_palindrome(string):
     >>> is_palindrome("rats live on no evil star")
     True
     '''
+    return string == string[::-1]
     pass
 
 def alternate(L):
@@ -132,6 +138,7 @@ def alternate(L):
     >>> alternate(['a', 'b', 'c', 'd', 'e', 'f', 'g'])
     ['b', 'd', 'f', 'a', 'c', 'e', 'g']
     '''
+    return L[1::2]
     pass
 
 def shuffle(L):
@@ -147,46 +154,49 @@ def shuffle(L):
     >>> shuffle([1, 2, 3, 4, 5, 6])
     [1, 4, 2, 5, 3, 6]
     '''
+    shuffled = []
+    for i in range(len(L)/2):
+        shuffled.append(L[i])
+        shuffled.append(L[i+len(L)/2])
+    return shuffled
+    return [x]
     pass
 
 def filter_words(word_list, letter):
     '''
     INPUT: list of words, string
     OUTPUT: list of words
-
     Use filter to return the words from word_list which start with letter.
-
     Example:
     >>> filter_words(["salumeria", "dandelion", "yamo", "doc loi", "rosamunde",
                       "beretta", "ike's", "delfina"], "d")
     ['dandelion', 'doc loi', 'delfina']
     '''
+    return [x for x in word_list if x[0]==letter]
     pass
 
 def factors(num):
     '''
     INPUT: integer
     OUTPUT: list of integers
-
     Use filter to return all of the factors of num.
     '''
+    return [x for x in range(1,num) if num % x == 0]
     pass
 
 def acronym(phrase):
     '''
     INPUT: string
     OUTPUT: string
-
     Given a phrase, return the associated acronym by breaking on spaces and
     concatenating the first letters of each word together capitalized.
-
     Example:
     >>> acronym("zipfian academy")
     'ZA'
-
     Hint: You can do this on one line using list comprehension and the join
     method. Python has a builtin string method to uppercase strings.
     '''
+    return ''.join([x[0].upper() for x in phrase.split()])
     pass
 
 def sort_by_ratio(L):
@@ -204,6 +214,8 @@ def sort_by_ratio(L):
     >>> L
     [(1, 3), (2, 4), (3, 5), (8, 5), (9, 4)]
     '''
+
+    return sorted(L,key = lambda ratio: ratio[0]/ratio[1])
     pass
 
 
@@ -219,6 +231,7 @@ def count_match_index(L):
     >>> count_match_index([0, 2, 2, 3, 6, 5])
     4
     '''
+    return len([x for x in list(enumerate(L)) if x[0]==x[1]])
     pass
 
 def only_sorted(L):
@@ -233,6 +246,7 @@ def only_sorted(L):
     >>> only_sorted([[3, 4, 5], [4, 3, 5], [5, 6, 3], [5, 6, 7]])
     [[3, 4, 5], [5, 6, 7]]
     '''
+    
     pass
 
 def concatenate(L1, L2, connector=""):
