@@ -5,6 +5,7 @@ Choose a nursing home ("Facility"), and subset the data by that nursing home. An
 '''
 import pandas as pd
 df = pd.read_csv('beds.tsv', delimiter='\t')
+subset = df.loc[df['Facility.ID'] == 17 ]
 
 def question_zero():
     '''
@@ -14,34 +15,36 @@ def question_zero():
     return df['Facility.ID'].max()
 
     '''
-    return None
+    return subset['Facility.ID'].max()
 
 
 def question_one():
     '''
-    Write a pandas query that returns  count of how many censuses were reported.
+    Write a pandas query that returns count of how many censuses were reported.
     '''
-    return None
+    return len(subset['Bed.Census.Date'].unique())
 
 def question_two():
     '''
     Write a pandas query that returns the earliest census date
     '''
-    return None
+    return pd.to_datetime(subset['Bed.Census.Date']).min()
 
 
 def question_three():
     '''
     Write a pandas query that returns the latest census date
     '''
-    return None
+    return pd.to_datetime(subset['Bed.Census.Date']).max()
 
 
 def question_four():
     '''
     Write a pandas query that returns  the ten census dates with the highest number of available beds for that nursing home
     '''
-    return None
+    top_ten subset.sort('Available.Residential.Beds', ascending = False)
+    return top_ten['Bed.Census.Date'].ix[0:10]
+
 
 
 def question_five():
